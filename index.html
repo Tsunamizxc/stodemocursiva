@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VELARO SERVICE — Премиальное СТО</title>
+  <meta name="description" content="Премиальный автосервис полного цикла: диагностика, ремонт, детейлинг. Точность инженерии и сервис нового уровня." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Unbounded:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a class="logo" href="#top" aria-label="VELARO SERVICE — на главную">
+        <span class="logo__mark"></span>
+        <span class="logo__text">VELARO <em>SERVICE</em></span>
+      </a>
+
+      <nav class="nav" id="nav" aria-label="Основная навигация">
+        <a href="#services">Услуги</a>
+        <a href="#fleet">Автопарк</a>
+        <a href="#advantages">О сервисе</a>
+        <a href="#gallery">Галерея</a>
+        <a href="#contact">Контакты</a>
+      </nav>
+
+      <div class="header__actions">
+        <a class="header__phone" href="tel:+74951234567">+7 (495) 123-45-67</a>
+        <a class="btn btn--primary btn--sm" href="#contact">
+          Записаться
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <button class="burger" id="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav">
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-mask" id="heroMask" role="img" aria-label="Интерактивный эффект: кузов просвечивается до рентген-вида при наведении">
+        <img class="hero-mask__xray" src="assets/img/hero-car-xray.png" alt="" draggable="false" />
+        <img class="hero-mask__body" src="assets/img/hero-car-body.png" alt="Премиальный автомобиль VELARO SERVICE" draggable="false" />
+        <div class="hero-mask__scanline" aria-hidden="true"></div>
+        <div class="hero-mask__ring" aria-hidden="true"></div>
+        <div class="hero-mask__veil" aria-hidden="true"></div>
+      </div>
+
+      <div class="hero__bg-word" aria-hidden="true">VELARO</div>
+
+      <div class="container">
+        <div class="hero__grid">
+          <div class="hero__content">
+            <p class="hero__label">Премиальное СТО · Москва</p>
+            <h1 class="hero__title">
+              Сервисный центр<br />
+              премиальных автомобилей<br />
+              <span>нового уровня</span>
+            </h1>
+            <p class="hero__text">
+              Диагностика на оборудовании дилерского класса, прозрачный ремонт
+              и инженерия, которая возвращает авто заводскую точность.
+            </p>
+            <div class="hero__cta">
+              <a class="btn btn--primary" href="#contact">Записаться на сервис</a>
+              <a class="btn btn--ghost" href="#services">Смотреть услуги</a>
+            </div>
+            <div class="hero__hint">
+              <span class="hero__hint-dot"></span>
+              Наведите курсор — просветите кузов
+            </div>
+          </div>
+
+          <div class="hero__stage">
+            <a class="hero__play" href="#gallery" aria-label="Смотреть шоурум">
+              <span class="hero__play-ring"></span>
+              <span class="hero__play-icon">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true"><path d="M5 3.5v11l10-5.5L5 3.5z"/></svg>
+              </span>
+              <span class="hero__play-label">Смотреть<br />шоурум</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="hero__scroll" aria-hidden="true">
+        <span>Листайте</span>
+        <i></i>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats" aria-label="Ключевые показатели">
+      <div class="container stats__grid">
+        <article class="stat reveal">
+          <span class="stat__num" data-count="12">0</span>
+          <span class="stat__plus">+</span>
+          <p class="stat__label">лет на рынке<br />премиум-сервиса</p>
+        </article>
+        <article class="stat reveal">
+          <span class="stat__num" data-count="4800">0</span>
+          <span class="stat__plus">+</span>
+          <p class="stat__label">автомобилей<br />прошли через пост</p>
+        </article>
+        <article class="stat reveal">
+          <span class="stat__num" data-count="98">0</span>
+          <span class="stat__plus">%</span>
+          <p class="stat__label">клиентов<br />возвращаются снова</p>
+        </article>
+        <article class="stat reveal">
+          <span class="stat__num" data-count="24">0</span>
+          <span class="stat__suffix">/7</span>
+          <p class="stat__label">поддержка<br />и эвакуация</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="section services" id="services">
+      <div class="container">
+        <div class="section__head">
+          <div>
+            <p class="section__label reveal">Услуги</p>
+            <h2 class="section__title reveal">Инженерия,<br />а не просто ремонт</h2>
+          </div>
+          <p class="section__lead reveal">
+            Полный цикл обслуживания премиум- и спорткаров: от компьютерной
+            диагностики до кузовных работ и детейлинга.
+          </p>
+        </div>
+
+        <div class="services__grid">
+          <article class="service-card reveal">
+            <div class="service-card__icon">
+              <svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><circle cx="20" cy="20" r="14" stroke="currentColor" stroke-width="1.5"/><path d="M20 12v8l5 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <h3>Диагностика</h3>
+            <p>Дилерские сканеры, эндоскопия, стенд развал-схождения 3D и проверка по 120+ параметрам.</p>
+          </article>
+          <article class="service-card reveal">
+            <div class="service-card__icon">
+              <svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M8 28l8-16h8l8 16H8z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="20" cy="24" r="3" stroke="currentColor" stroke-width="1.5"/></svg>
+            </div>
+            <h3>Слесарный цех</h3>
+            <p>Ходовая, тормоза, ДВС и трансмиссия. Оригинальные и одобренные OEM-компоненты.</p>
+          </article>
+          <article class="service-card reveal">
+            <div class="service-card__icon">
+              <svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><rect x="7" y="12" width="26" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M12 12V9a2 2 0 012-2h12a2 2 0 012 2v3" stroke="currentColor" stroke-width="1.5"/></svg>
+            </div>
+            <h3>Кузов и ЛКП</h3>
+            <p>Беспокрасочный ремонт, покраска в камере, керамика и защита плёнкой PPF.</p>
+          </article>
+          <article class="service-card reveal">
+            <div class="service-card__icon">
+              <svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M10 26c4-8 16-8 20 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="20" cy="16" r="5" stroke="currentColor" stroke-width="1.5"/></svg>
+            </div>
+            <h3>Детейлинг</h3>
+            <p>Полировка в несколько этапов, химчистка салона и восстановление кожи премиум-класса.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FLEET / WORK EXAMPLES -->
+    <section class="section fleet" id="fleet">
+      <div class="container">
+        <div class="section__head section__head--row">
+          <div>
+            <p class="section__label reveal">В работе и на выдаче</p>
+            <h2 class="section__title reveal">Авто, которым<br />мы доверяем</h2>
+          </div>
+          <div class="fleet__nav reveal">
+            <button class="icon-btn" type="button" data-fleet-prev aria-label="Предыдущие">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12 4L6 10l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="icon-btn" type="button" data-fleet-next aria-label="Следующие">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M8 4l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="fleet__track" id="fleetTrack">
+          <article class="car-card">
+            <div class="car-card__media">
+              <img src="assets/img/car-mercedes.png" alt="Mercedes-AMG GT" loading="lazy" />
+            </div>
+            <div class="car-card__body">
+              <h3>Mercedes-AMG GT</h3>
+              <ul class="car-card__specs">
+                <li>ТО 60 000 км</li>
+                <li>Тормоза</li>
+                <li>Керамика</li>
+              </ul>
+              <p class="car-card__price">от <span>84 000 ₽</span></p>
+            </div>
+          </article>
+          <article class="car-card">
+            <div class="car-card__media">
+              <img src="assets/img/car-bmw.png" alt="BMW M550i" loading="lazy" />
+            </div>
+            <div class="car-card__body">
+              <h3>BMW M550i xDrive</h3>
+              <ul class="car-card__specs">
+                <li>Диагностика</li>
+                <li>Подвеска</li>
+                <li>PPF</li>
+              </ul>
+              <p class="car-card__price">от <span>62 500 ₽</span></p>
+            </div>
+          </article>
+          <article class="car-card">
+            <div class="car-card__media">
+              <img src="assets/img/car-porsche.png" alt="Porsche 911" loading="lazy" />
+            </div>
+            <div class="car-card__body">
+              <h3>Porsche 911 Carrera</h3>
+              <ul class="car-card__specs">
+                <li>ДВС</li>
+                <li>Выхлоп</li>
+                <li>Детейлинг</li>
+              </ul>
+              <p class="car-card__price">от <span>118 000 ₽</span></p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADVANTAGES -->
+    <section class="section advantages" id="advantages">
+      <div class="container advantages__grid">
+        <div class="advantages__left">
+          <p class="section__label reveal">Почему Velaro</p>
+          <h2 class="section__title reveal">Сервис, в котором<br />нет «примерно»</h2>
+          <p class="advantages__text reveal">
+            Мы строим процесс как инженеры: каждая операция измерима,
+            согласована и зафиксирована в цифровом отчёте до выдачи ключей.
+          </p>
+        </div>
+
+        <div class="accordion" id="accordion">
+          <div class="accordion__item is-open">
+            <button class="accordion__trigger" type="button" aria-expanded="true">
+              <span class="accordion__icon">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h16M12 4v16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </span>
+              <span class="accordion__title">Прозрачная история работ</span>
+              <span class="accordion__plus" aria-hidden="true"></span>
+            </button>
+            <div class="accordion__panel">
+              <p>Фотофиксация, видео с камер постов и подробный чек-лист по каждому узлу — вы видите, за что платите.</p>
+            </div>
+          </div>
+          <div class="accordion__item">
+            <button class="accordion__trigger" type="button" aria-expanded="false">
+              <span class="accordion__icon">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </span>
+              <span class="accordion__title">Экспресс-слоты в день обращения</span>
+              <span class="accordion__plus" aria-hidden="true"></span>
+            </button>
+            <div class="accordion__panel">
+              <p>Для диагностики и мелкого ТО держим резерв постов. Подменный автомобиль — по запросу.</p>
+            </div>
+          </div>
+          <div class="accordion__item">
+            <button class="accordion__trigger" type="button" aria-expanded="false">
+              <span class="accordion__icon">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="accordion__title">Гарантия на работы и запчасти</span>
+              <span class="accordion__plus" aria-hidden="true"></span>
+            </button>
+            <div class="accordion__panel">
+              <p>До 24 месяцев на слесарные работы и оригинальные компоненты. Письменная гарантия в договоре.</p>
+            </div>
+          </div>
+          <div class="accordion__item">
+            <button class="accordion__trigger" type="button" aria-expanded="false">
+              <span class="accordion__icon">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V7l8-4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="accordion__title">Дилерский уровень оснащения</span>
+              <span class="accordion__plus" aria-hidden="true"></span>
+            </button>
+            <div class="accordion__panel">
+              <p>Стенды, подъёмники и ПО уровня официальных центров BMW, Mercedes-Benz и Porsche.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="section gallery" id="gallery">
+      <div class="container">
+        <div class="section__head">
+          <div>
+            <p class="section__label reveal">Пространство</p>
+            <h2 class="section__title reveal">Цех, где рождается<br />точность</h2>
+          </div>
+        </div>
+        <div class="gallery__mosaic">
+          <figure class="gallery__item gallery__item--wide reveal" data-parallax="0.08">
+            <img src="assets/img/gallery-workshop.png" alt="Премиальный цех VELARO" loading="lazy" />
+            <figcaption>Диагностический бокс</figcaption>
+          </figure>
+          <figure class="gallery__item reveal" data-parallax="0.12">
+            <img src="assets/img/gallery-brakes.png" alt="Тормозная система премиум-класса" loading="lazy" />
+            <figcaption>Тормозная инженерия</figcaption>
+          </figure>
+          <figure class="gallery__item reveal" data-parallax="0.06">
+            <img src="assets/img/gallery-interior.png" alt="Салон после детейлинга" loading="lazy" />
+            <figcaption>Детейлинг салона</figcaption>
+          </figure>
+          <figure class="gallery__item gallery__item--wide reveal" data-parallax="0.1">
+            <img src="assets/img/cars-inventory.png" alt="Автомобили на выдаче" loading="lazy" />
+            <figcaption>Зона выдачи</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section contact" id="contact">
+      <div class="container contact__grid">
+        <div class="contact__info">
+          <p class="section__label reveal">Запись</p>
+          <h2 class="section__title reveal">Запишитесь<br />на сервис</h2>
+          <p class="contact__text reveal">
+            Оставьте заявку — мастер свяжется в течение 15 минут, согласует слот
+            и подготовит предварительную смету.
+          </p>
+          <ul class="contact__features reveal">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Бесплатная диагностика при ремонте
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Трансфер или подменный автомобиль
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12l4 4L19 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Отчёт и гарантия в личном кабинете
+            </li>
+          </ul>
+        </div>
+
+        <form class="form reveal" id="contactForm" novalidate>
+          <div class="form__row">
+            <label class="field">
+              <span>Имя</span>
+              <input type="text" name="name" placeholder="Александр" required autocomplete="name" />
+            </label>
+            <label class="field">
+              <span>Телефон</span>
+              <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required autocomplete="tel" />
+            </label>
+          </div>
+          <label class="field">
+            <span>Автомобиль</span>
+            <input type="text" name="car" placeholder="BMW M550i, 2022" />
+          </label>
+          <label class="field">
+            <span>Комментарий</span>
+            <textarea name="message" rows="3" placeholder="Что беспокоит или какая услуга нужна"></textarea>
+          </label>
+          <button class="btn btn--primary btn--block" type="submit">Отправить заявку</button>
+          <p class="form__note">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных.</p>
+          <p class="form__success" id="formSuccess" hidden>Заявка отправлена. Мы скоро перезвоним.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div class="footer__brand">
+        <a class="logo" href="#top">
+          <span class="logo__mark"></span>
+          <span class="logo__text">VELARO <em>SERVICE</em></span>
+        </a>
+        <p>Премиальное СТО полного цикла.<br />Москва · 2014–2026</p>
+      </div>
+      <div class="footer__col">
+        <h4>Компания</h4>
+        <a href="#advantages">О сервисе</a>
+        <a href="#gallery">Галерея</a>
+        <a href="#contact">Контакты</a>
+      </div>
+      <div class="footer__col">
+        <h4>Услуги</h4>
+        <a href="#services">Диагностика</a>
+        <a href="#services">Слесарный цех</a>
+        <a href="#services">Детейлинг</a>
+      </div>
+      <div class="footer__col">
+        <h4>Связь</h4>
+        <a href="tel:+74951234567">+7 (495) 123-45-67</a>
+        <a href="mailto:service@velaro.ru">service@velaro.ru</a>
+        <p>ул. Автозаводская, 18с3</p>
+      </div>
+    </div>
+    <div class="container footer__bottom">
+      <p>© 2026 Velaro Service. Все права защищены.</p>
+      <div class="footer__social">
+        <a href="#" aria-label="Telegram">TG</a>
+        <a href="#" aria-label="Instagram">IG</a>
+        <a href="#" aria-label="YouTube">YT</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="js/main.js" defer></script>
+</body>
+</html>

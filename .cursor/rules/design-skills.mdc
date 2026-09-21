@@ -1,0 +1,25 @@
+---
+description: Подключает навыки Frontend Design и UI/UX Pro Max ко всем задачам по UI/сайту
+alwaysApply: true
+---
+
+# Design Skills для проекта «Сайт СТО»
+
+Перед проектированием или правками UI/сайта **обязательно** читай и следуй навыкам:
+
+1. `.cursor/skills/frontend-design/SKILL.md` — отличительный визуальный дизайн (палитра, типографика, анти-шаблоны)
+2. `.cursor/skills/ui-ux-pro-max/SKILL.md` — UI/UX Pro Max (design system, UX, анимации, стек)
+
+При новой странице/секции запускай поиск design system:
+
+```bash
+python .cursor/skills/ui-ux-pro-max/scripts/search.py "premium auto service dark luxury" --design-system -p "Velaro Service"
+```
+
+## Контекст проекта
+
+- Тема: премиальное СТО (автосервис), не автосалон
+- Референс: тёмный luxury / Awwwards, акцент `#FF4F00`, фон `#000` / `#0E0E0E`
+- Стек: HTML + CSS + JS
+- Язык интерфейса: русский (кириллица)
+- Hero: эффект маски «кузов → рентген» по курсору (`mask-image` / `clip-path`)
