@@ -1,72 +1,96 @@
+"""Build x-ray locked to body silhouette (same size, same outline)."""
 from PIL import Image, ImageFilter, ImageEnhance, ImageOps, ImageChops
 import numpy as np
 from pathlib import Path
 
-src = Path(r"c:\Users\it13\Desktop\Сайт СТО\assets\img\hero-car-body.png")
-dst = Path(r"c:\Users\it13\Desktop\Сайт СТО\assets\img\hero-car-xray.png")
+root = Path(r"c:\Users\it13\Desktop\Сайт СТО\assets\img")
+body_path = root / "hero-car-body.png"
+# Prefer the detailed internals render
+candidates = [
+    Path(r"C:\Users\it13\.cursor\projects\c-Users-it13-Desktop\assets\hero-car-xray-v2.png"),
+    Path(r"C:\Users\it13\.cursor\projects\c-Users-it13-Desktop\assets\hero-car-xray-raw.png"),
+    root / "hero-car-xray-raw.png",
+    root / "hero-car-xray.png",
+]
+raw_path = next(p for p in candidates if p.exists())
+out_path = root / "hero-car-xray.png"
 
-img = Image.open(src).convert("RGB")
-arr = np.asarray(img).astype(np.float32)
+body = Image.open(body_path).convert("RGB")
+raw = Image.open(raw_path).convert("RGB")
+W, H = body.size
+raw = raw.resize((W, H), Image.Resampling.LANCZOS)
 
-lum = 0.2126 * arr[:, :, 0] + 0.7152 * arr[:, :, 1] + 0.0722 * arr[:, :, 2]
-mask = np.clip((lum - 6.0) / 24.0, 0.0, 1.0)
+ba = np.asarray(body).astype(np.float32)
+ra = np.asarray(raw).astype(np.float32)
 
-gray = ImageOps.grayscale(img)
 
-# Multi-scale edges = chassis / panel lines
-e1 = gray.filter(ImageFilter.FIND_EDGES)
-e1 = ImageEnhance.Contrast(e1).enhance(2.8)
-e2 = gray.filter(ImageFilter.GaussianBlur(1.2)).filter(ImageFilter.FIND_EDGES)
-e2 = ImageEnhance.Contrast(e2).enhance(2.0)
-emb = gray.filter(ImageFilter.EMBOSS)
-emb = ImageOps.autocontrast(emb)
+def luminance(a):
+    return 0.2126 * a[:, :, 0] + 0.7152 * a[:, :, 1] + 0.0722 * a[:, :, 2]
 
-e = np.maximum(
-    np.asarray(e1).astype(np.float32),
-    np.asarray(e2).astype(np.float32) * 0.85,
-) / 255.0
-emb_a = np.asarray(emb).astype(np.float32) / 255.0
 
-# Translucent “flesh”: dark blue fill inside silhouette
-fill = np.clip(40 + lum * 0.18, 0, 90)
+def hard_mask(a, thr=10.0):
+    return (luminance(a) > thr).astype(np.uint8)
 
-# Bone / frame from inverted midtones + emboss
-bones = np.clip((255.0 - lum) * 0.35 + emb_a * 140.0, 0, 255)
 
-# Wireframe glow from edges
-wire = e * 255.0
+def bbox_of(mask):
+    ys, xs = np.where(mask > 0)
+    return xs.min(), ys.min(), xs.max() + 1, ys.max() + 1
 
-# Compose channels — medical cyan x-ray
-r = fill * 0.25 + bones * 0.25 + wire * 0.55
-g = fill * 0.55 + bones * 0.55 + wire * 0.95
-b = fill * 0.95 + bones * 0.85 + wire * 1.25
 
-# Orange hotspots from original warm reflections (brakes/side glow)
-warm = np.clip(arr[:, :, 0] * 1.1 - arr[:, :, 2], 0, 255) / 255.0
-r = r + warm * 200.0
-g = g + warm * 70.0
+mb = hard_mask(ba)
+mr = hard_mask(ra)
+bx0, by0, bx1, by1 = bbox_of(mb)
+rx0, ry0, rx1, ry1 = bbox_of(mr)
 
-# Keep bright lamps white-cyan
-spec = np.clip((lum - 150.0) / 70.0, 0, 1)
-r = r + spec * 160
-g = g + spec * 200
-b = b + spec * 255
+# Place internals into the EXACT body car bounding box
+raw_car = raw.crop((rx0, ry0, rx1, ry1)).resize((bx1 - bx0, by1 - by0), Image.Resampling.LANCZOS)
+aligned = Image.new("RGB", (W, H), (0, 0, 0))
+aligned.paste(raw_car, (bx0, by0))
+aa = np.asarray(aligned).astype(np.float32)
 
-out = np.clip(np.stack([r, g, b], axis=-1), 0, 255)
-final_img = Image.fromarray(out.astype(np.uint8), mode="RGB")
+# Soft silhouette strictly from BODY (pixel-identical outline)
+soft = np.clip((luminance(ba) - 5.0) / 20.0, 0.0, 1.0)
+soft = np.asarray(
+    Image.fromarray((soft * 255).astype(np.uint8), "L")
+    .filter(ImageFilter.GaussianBlur(0.7))
+).astype(np.float32) / 255.0
 
-# Soft bloom on wires
-bloom = final_img.filter(ImageFilter.GaussianBlur(radius=3))
-final_img = Image.blend(final_img, bloom, 0.28)
-final_img = ImageEnhance.Contrast(final_img).enhance(1.15)
-final_img = ImageEnhance.Color(final_img).enhance(1.25)
+# Ghost shell from the real body (edges + translucent panels)
+gray = ImageOps.grayscale(body)
+edges = ImageEnhance.Contrast(gray.filter(ImageFilter.FIND_EDGES)).enhance(2.8)
+e = np.asarray(edges).astype(np.float32) / 255.0
+inv = 255.0 - luminance(ba)
 
-# Identical silhouette on pure black
-mimg = Image.fromarray((mask * 255).astype(np.uint8), mode="L")
-# Feather mask slightly so edges match body anti-aliasing
-mimg = mimg.filter(ImageFilter.GaussianBlur(radius=0.6))
-black = Image.new("RGB", final_img.size, (0, 0, 0))
-final_img = Image.composite(final_img, black, mimg)
+shell_r = inv * 0.12 + e * 40
+shell_g = inv * 0.28 + e * 110
+shell_b = inv * 0.45 + e * 180
 
-final_img.save(dst, optimize=True)
-print("saved", dst, final_img.size)
+# Internals from aligned AI x-ray (boost mid detail)
+warm = np.clip(aa[:, :, 0] - aa[:, :, 2], 0, 255)
+int_r = aa[:, :, 0] * 0.85 + warm * 0.25
+int_g = aa[:, :, 1] * 1.05
+int_b = np.clip(aa[:, :, 2] * 1.18, 0, 255)
+
+# Where AI has structure, prefer it; else keep shell — still clipped to body mask
+ai_strength = np.clip(luminance(aa) / 90.0, 0.0, 1.0)[..., None]
+shell = np.stack([shell_r, shell_g, shell_b], axis=-1)
+internals = np.stack([int_r, int_g, int_b], axis=-1)
+mixed = shell * (1.0 - ai_strength * 0.92) + internals * (ai_strength * 0.92)
+
+# Lock to body silhouette — identical footprint
+mixed = np.clip(mixed, 0, 255) * soft[..., None]
+
+out = Image.fromarray(mixed.astype(np.uint8), "RGB")
+out = ImageEnhance.Contrast(out).enhance(1.12)
+out = ImageEnhance.Color(out).enhance(1.2)
+
+# Final hard composite on black with body mask
+mask_img = Image.fromarray((soft * 255).astype(np.uint8), "L")
+out = Image.composite(out, Image.new("RGB", (W, H), (0, 0, 0)), mask_img)
+
+# Ensure identical dimensions
+assert out.size == body.size
+out.save(out_path, optimize=True)
+print("source", raw_path.name)
+print("saved", out_path, out.size, "body", body.size)
+print("bbox body", (bx0, by0, bx1, by1), "bbox raw", (rx0, ry0, rx1, ry1))

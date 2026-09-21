@@ -3,30 +3,51 @@
 (() => {
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* ---------- Header / mobile nav ---------- */
+  /* ---------- Header / premium menu ---------- */
   const header = document.getElementById("header");
   const burger = document.getElementById("burger");
-  const nav = document.getElementById("nav");
+  const menu = document.getElementById("menu");
+  const burgerText = burger?.querySelector(".burger__text");
 
   const onScrollHeader = () => {
-    header.classList.toggle("is-scrolled", window.scrollY > 24);
+    if (!header.classList.contains("is-menu-open")) {
+      header.classList.toggle("is-scrolled", window.scrollY > 24);
+    }
   };
   onScrollHeader();
   window.addEventListener("scroll", onScrollHeader, { passive: true });
 
+  const setMenuOpen = (open) => {
+    if (!burger || !menu) return;
+    burger.setAttribute("aria-expanded", String(open));
+    burger.setAttribute("aria-label", open ? "Закрыть меню" : "Открыть меню");
+    if (burgerText) {
+      burgerText.textContent = open
+        ? burgerText.dataset.close || "Закрыть"
+        : burgerText.dataset.open || "Меню";
+    }
+    menu.classList.toggle("is-open", open);
+    menu.setAttribute("aria-hidden", String(!open));
+    header.classList.toggle("is-menu-open", open);
+    document.body.style.overflow = open ? "hidden" : "";
+    if (!open) onScrollHeader();
+  };
+
   burger?.addEventListener("click", () => {
     const open = burger.getAttribute("aria-expanded") === "true";
-    burger.setAttribute("aria-expanded", String(!open));
-    nav.classList.toggle("is-open", !open);
-    document.body.style.overflow = open ? "" : "hidden";
+    setMenuOpen(!open);
   });
 
-  nav?.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => {
-      burger?.setAttribute("aria-expanded", "false");
-      nav.classList.remove("is-open");
-      document.body.style.overflow = "";
-    });
+  menu?.querySelector(".menu__shade")?.addEventListener("click", () => setMenuOpen(false));
+
+  menu?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => setMenuOpen(false));
+  });
+
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && menu?.classList.contains("is-open")) {
+      setMenuOpen(false);
+    }
   });
 
   /* ---------- Cursor glow ---------- */
@@ -58,16 +79,16 @@
 
   /* ---------- Hero X-ray mask ---------- */
   const mask = document.getElementById("heroMask");
-  if (mask) {
-    const isFine = window.matchMedia("(pointer: fine)").matches;
-    const radius = isFine ? 220 : 140;
-    let mx = 70;
-    let my = 45;
-    let tx = 70;
-    let ty = 45;
+  const hero = document.querySelector(".hero");
+  if (mask && hero) {
+    const fine = window.matchMedia("(pointer: fine)").matches;
+    const radius = fine ? 240 : 160;
+    let mx = 65;
+    let my = 50;
+    let tx = 65;
+    let ty = 50;
     let mr = 0;
     let tr = 0;
-    let active = false;
 
     const setMask = () => {
       mask.style.setProperty("--mx", `${mx}%`);
@@ -79,75 +100,76 @@
     const toLocal = (clientX, clientY) => {
       const rect = mask.getBoundingClientRect();
       return {
-        x: ((clientX - rect.left) / rect.width) * 100,
-        y: ((clientY - rect.top) / rect.height) * 100,
+        x: ((clientX - rect.left) / Math.max(rect.width, 1)) * 100,
+        y: ((clientY - rect.top) / Math.max(rect.height, 1)) * 100,
       };
     };
 
-    const activate = (x, y) => {
-      active = true;
-      mask.classList.add("is-active");
-      tx = x;
-      ty = y;
+    const revealAt = (clientX, clientY) => {
+      const p = toLocal(clientX, clientY);
+      tx = Math.min(100, Math.max(0, p.x));
+      ty = Math.min(100, Math.max(0, p.y));
       tr = radius;
+      mask.classList.add("is-active");
     };
 
-    const deactivate = () => {
-      active = false;
-      mask.classList.remove("is-active");
+    const hideReveal = () => {
       tr = 0;
+      mask.classList.remove("is-active");
     };
 
-    if (isFine) {
-      mask.addEventListener("pointerenter", (e) => {
-        const p = toLocal(e.clientX, e.clientY);
-        activate(p.x, p.y);
-      });
-      mask.addEventListener("pointermove", (e) => {
-        const p = toLocal(e.clientX, e.clientY);
-        tx = p.x;
-        ty = p.y;
-        tr = radius;
-        if (!active) activate(p.x, p.y);
-      });
-      mask.addEventListener("pointerleave", deactivate);
-    } else {
-      // Touch: tap/drag to reveal
-      mask.addEventListener(
-        "pointerdown",
-        (e) => {
-          mask.setPointerCapture(e.pointerId);
-          const p = toLocal(e.clientX, e.clientY);
-          activate(p.x, p.y);
-        },
-        { passive: true }
-      );
-      mask.addEventListener(
-        "pointermove",
-        (e) => {
-          if (!active) return;
-          const p = toLocal(e.clientX, e.clientY);
-          tx = p.x;
-          ty = p.y;
-        },
-        { passive: true }
-      );
-      mask.addEventListener("pointerup", deactivate);
-      mask.addEventListener("pointercancel", deactivate);
+    // Hover without click (mouse / pen). Listen on whole hero so overlays don't block.
+    hero.addEventListener(
+      "pointermove",
+      (e) => {
+        if (e.pointerType === "touch") return;
+        revealAt(e.clientX, e.clientY);
+      },
+      { passive: true }
+    );
 
-      // Gentle idle pulse so mobile users see the effect
-      if (!reduceMotion) {
-        setTimeout(() => {
-          activate(62, 48);
-          setTimeout(deactivate, 1600);
-        }, 900);
-      }
-    }
+    hero.addEventListener(
+      "pointerenter",
+      (e) => {
+        if (e.pointerType === "touch") return;
+        revealAt(e.clientX, e.clientY);
+      },
+      { passive: true }
+    );
+
+    hero.addEventListener(
+      "pointerleave",
+      (e) => {
+        if (e.pointerType === "touch") return;
+        hideReveal();
+      },
+      { passive: true }
+    );
+
+    // Touch: follow finger while moving on hero
+    hero.addEventListener(
+      "touchstart",
+      (e) => {
+        const t = e.touches[0];
+        if (t) revealAt(t.clientX, t.clientY);
+      },
+      { passive: true }
+    );
+    hero.addEventListener(
+      "touchmove",
+      (e) => {
+        const t = e.touches[0];
+        if (t) revealAt(t.clientX, t.clientY);
+      },
+      { passive: true }
+    );
+    hero.addEventListener("touchend", hideReveal, { passive: true });
+    hero.addEventListener("touchcancel", hideReveal, { passive: true });
 
     const animateMask = () => {
-      mx += (tx - mx) * 0.18;
-      my += (ty - my) * 0.18;
-      mr += (tr - mr) * 0.16;
+      mx += (tx - mx) * 0.22;
+      my += (ty - my) * 0.22;
+      mr += (tr - mr) * 0.2;
       setMask();
       requestAnimationFrame(animateMask);
     };

@@ -21,7 +21,7 @@
         <span class="logo__text">VELARO <em>SERVICE</em></span>
       </a>
 
-      <nav class="nav" id="nav" aria-label="Основная навигация">
+      <nav class="nav nav--desktop" aria-label="Основная навигация" hidden>
         <a href="#services">Услуги</a>
         <a href="#fleet">Автопарк</a>
         <a href="#advantages">О сервисе</a>
@@ -31,23 +31,86 @@
 
       <div class="header__actions">
         <a class="header__phone" href="tel:+74951234567">+7 (495) 123-45-67</a>
-        <a class="btn btn--primary btn--sm" href="#contact">
+        <a class="btn btn--primary btn--sm header__cta" href="#contact">
           Записаться
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <button class="burger" id="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav">
-          <span></span><span></span>
+        <button class="burger" id="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="menu">
+          <span class="burger__text" data-open="Меню" data-close="Закрыть">Меню</span>
+          <span class="burger__icon" aria-hidden="true">
+            <i></i><i></i><i></i>
+          </span>
         </button>
       </div>
     </div>
   </header>
 
+  <div class="menu" id="menu" aria-hidden="true">
+    <div class="menu__shade" aria-hidden="true"></div>
+    <div class="menu__panel">
+      <div class="menu__glow" aria-hidden="true"></div>
+      <div class="menu__word" aria-hidden="true">MENU</div>
+      <div class="container menu__layout">
+        <nav class="menu__nav" aria-label="Меню сайта">
+          <a class="menu__link" href="#services" data-index="01">
+            <span class="menu__index">01</span>
+            <span class="menu__label">Услуги</span>
+            <span class="menu__arrow" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M6 14h16M15 7l7 7-7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </a>
+          <a class="menu__link" href="#fleet" data-index="02">
+            <span class="menu__index">02</span>
+            <span class="menu__label">Автопарк</span>
+            <span class="menu__arrow" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M6 14h16M15 7l7 7-7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </a>
+          <a class="menu__link" href="#advantages" data-index="03">
+            <span class="menu__index">03</span>
+            <span class="menu__label">О сервисе</span>
+            <span class="menu__arrow" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M6 14h16M15 7l7 7-7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </a>
+          <a class="menu__link" href="#gallery" data-index="04">
+            <span class="menu__index">04</span>
+            <span class="menu__label">Галерея</span>
+            <span class="menu__arrow" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M6 14h16M15 7l7 7-7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </a>
+          <a class="menu__link" href="#contact" data-index="05">
+            <span class="menu__index">05</span>
+            <span class="menu__label">Контакты</span>
+            <span class="menu__arrow" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M6 14h16M15 7l7 7-7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </a>
+        </nav>
+
+        <aside class="menu__aside">
+          <p class="menu__aside-label">Связь</p>
+          <a class="menu__phone" href="tel:+74951234567">+7 (495) 123-45-67</a>
+          <a class="menu__mail" href="mailto:service@velaro.ru">service@velaro.ru</a>
+          <p class="menu__address">ул. Автозаводская, 18с3<br />Москва</p>
+          <a class="btn btn--primary menu__cta" href="#contact">Записаться на сервис</a>
+          <div class="menu__social">
+            <a href="#" aria-label="Telegram">TG</a>
+            <a href="#" aria-label="Instagram">IG</a>
+            <a href="#" aria-label="YouTube">YT</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
   <main id="top">
     <!-- HERO -->
     <section class="hero">
       <div class="hero-mask" id="heroMask" role="img" aria-label="Интерактивный эффект: кузов просвечивается до рентген-вида при наведении">
-        <img class="hero-mask__xray" src="assets/img/hero-car-xray.png" alt="" draggable="false" />
-        <img class="hero-mask__body" src="assets/img/hero-car-body.png" alt="Премиальный автомобиль VELARO SERVICE" draggable="false" />
+        <img class="hero-mask__xray" src="assets/img/hero-car-xray.png?v=4" alt="" draggable="false" />
+        <img class="hero-mask__body" src="assets/img/hero-car-body.png?v=4" alt="Премиальный автомобиль VELARO SERVICE" draggable="false" />
         <div class="hero-mask__scanline" aria-hidden="true"></div>
         <div class="hero-mask__ring" aria-hidden="true"></div>
         <div class="hero-mask__veil" aria-hidden="true"></div>
